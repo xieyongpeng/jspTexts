@@ -17,10 +17,37 @@
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	
+	
+	<script type="text/javascript">
+		window.onload =function(){
+			var select=document.getElementById("class2").value;
+			var member=document.getElementById("class1");
+			for(var i=0;i<member.childElementCount;i++){
+				if(select==member.options[i].value){
+					member.options[i].selected=true;
+				}
+			}
+		};
+	</script>
 
   </head>
   
   <body>
+  
+  <nav class="navbar navbar-default" role="navigation" style="margin:0px 0px 3px 0px;"> 
+    <div class="container-fluid"> 
+	    <div class="navbar-header"> 
+	        <a class="navbar-brand" href="#">资料编辑</a> 
+	    </div>
+	    <div> 
+        	<ul class="nav navbar-nav"> 
+        		<li><a href="main.jsp">返回</a></li>  
+        	</ul>
+        </div>
+	</div>
+</nav>
+  
+  
   
   <%
   	
@@ -81,7 +108,8 @@
 						
 						<div class="form-group">
 							<label class="control-label" for="class1">所在班级</label>
-    						<select class="form-control" name="class1" id="class1" value="<%= class1 %>">
+							<input type="hidden" id="class2" value="<%= class1 %>">
+    						<select class="form-control" name="class1" id="class1">
       							<option value="应用141">应用141</option>
       							<option value="应用142">应用142</option>
       							<option value="应用143">应用143</option>

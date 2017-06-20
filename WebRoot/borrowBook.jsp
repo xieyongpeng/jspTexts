@@ -13,6 +13,7 @@
 	if("No".equals(log)){
 		response.sendRedirect(request.getContextPath()+"/log.jsp");
 	}
+	
 	String name=(String)session.getAttribute("name");
 	String sql1="select * from borrow_book where name='" +name+ "'";
 	int count=DBManager.getCount(sql1);

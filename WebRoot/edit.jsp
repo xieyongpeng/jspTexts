@@ -20,6 +20,21 @@
   </head>
   
   <body>
+  
+  <nav class="navbar navbar-default" role="navigation" style="margin:0px 0px 3px 0px;"> 
+    <div class="container-fluid"> 
+	    <div class="navbar-header"> 
+	        <a class="navbar-brand" href="#">图书编辑</a> 
+	    </div>
+	    <div> 
+        	<ul class="nav navbar-nav"> 
+        		<li><a href="manageMain.jsp">返回</a></li>  
+        	</ul>
+        </div>
+	</div>
+</nav>
+  
+  
   <%
   	request.setCharacterEncoding("utf-8");
   	response.setCharacterEncoding("utf-8");

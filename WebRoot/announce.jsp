@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ page import="java.sql.*" %>
-<%@ page import="com.helloweenvsfei.person.Student" %>
+
 <%@ page import="com.helloweenvsfei.mysqlManager.DBManager" %>
 <jsp:directive.page import="java.sql.Date" />
 
@@ -31,10 +31,10 @@
     </div> 
     <div> 
         <ul class="nav navbar-nav"> 
-            <li class="active"><a href="#">学生管理</a></li> 
+            <li><a href="manageMain.jsp">学生管理</a></li> 
             <li><a href="bookManage.jsp">图书管理</a></li> 
             <li><a href="showMessage.jsp">留言信息查阅</a></li> 
-            <li><a href="announce.jsp">发布公告</a></li>
+            <li class="active"><a href="#">发布公告</a></li>
             <li><a href="main.jsp">注销登录</a></li>
         </ul> 
        
@@ -45,71 +45,47 @@
 	Connection cont=null;
 	Statement stmt=null;
 	ResultSet rs=null;
-	HashMap<String,Student> studentMap=new HashMap<String,Student>();
-	Student student=null;
-	HashMap<String,Student> perMap=null;
+
 	try{
-		String sql="select * from student_information";
+		String sql="select * from announce";
 		cont=DBManager.getConnection();
 		stmt=cont.createStatement();
 		rs=stmt.executeQuery(sql);
 		
  %>
- <a class="btn btn-info" href="addStudent.jsp"><span class="glyphicon glyphicon-user">新建学生信息</span></a>
+ <a class="btn btn-info" href="addAnnounce.jsp"><span class="glyphicon glyphicon-book">新建公告</span></a>
  <form role="form" action="operationStudent.jsp" method=post>
 	 <table class="table table-bordered table-condensed">
-	 	<caption>学生信息编辑</caption>
+	 	<caption>公告编辑</caption>
 		<thead>
 	 	<tr>
 		    <th>&nbsp;</th>
-		    <th>学生学号</th>
-		    <th>学生姓名</th>
-		    <th>学生性别</th>
-		    <th>学生年龄</th>
-		    <th>学生生日</th>
-		    <th>学生班级</th>
-		    <th>学生描述</th>
+		    <th>编号</th>
+		    <th>内容</th>
 		    <th>操作</th>
 		</tr>
 		</thead>
 		<tbody>
 		<%
 			while(rs.next()){
-				student= new Student();
-				String id=rs.getString("id");
-				student.setId(id);
-				String name=rs.getString("name");
-				student.setName(name);
-				int age=rs.getInt("age");
-				student.setAge(age);
-				String sex=rs.getString("sex");
-				student.setSex(sex);
-				String description=rs.getString("description");
-				student.setDescription(description);
-				String class1=rs.getString("class");
-				student.setClass1(class1);
-				Date brithday = rs.getDate("brithday");
-				student.setBrithday(brithday);
+
+				String id=rs.getString("announce_id");
+				
+				String text=rs.getString("text");
+				
 				out.println("		<tr bgcolor=#FFFFFF>");
 				out.println("	<td><input type=checkbox name=id value=" + id
 						+ "></td>");
 				out.println("	<td>" + id + "</td>");
-				out.println("	<td>" + name + "</td>");
-				out.println("	<td>" + sex + "</td>");
-				out.println("	<td>" + age + "</td>");
-				out.println("	<td>" + brithday + "</td>");
-				out.println("	<td>" + class1 + "</td>");
-				out.println("	<td>" + description + "</td>");
+				out.println("	<td>" + text + "</td>");
 				out.println("	<td>");
-						out.println("		<a class='btn btn-default' href='operationStudent.jsp?action=del&id="
+						out.println("		<a class='btn btn-default' href='operationAnnounce.jsp?action=del&id="
 						+ id + "' onclick='return confirm(\"确定删除该记录？\")'>删除</a>");
-						out.println("		<a class='btn btn-default' href='operationStudent.jsp?action=edit&id="
+						out.println("		<a class='btn btn-default' href='operationAnnounce.jsp?action=edit&id="
 						+ id + "'>修改</a>");
-						/*out.println("		<a class='btn btn-default' href='imgbolb.jsp?action=img&id="
-						+ bookid + "'>查看</a>");*/
 						out.println("	</td>");
 						out.println("		</tr>");
-				studentMap.put(id, student);
+		
 			}
 		%>
 				
@@ -142,7 +118,7 @@
 			if (cont != null)
 				cont.close();
 		}
-	session.setAttribute("personMap", studentMap);
+
  %>
   
   

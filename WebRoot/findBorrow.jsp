@@ -66,10 +66,7 @@
     <div> 
         <ul class="nav navbar-nav"> 
         	<li><a href="#">借阅查询</a></li> 
-            <li><a href="#">图书归还</a></li>
-            <li><a href="#">图书挂失</a></li>
-            <li><a href="#">图书续借</a></li>
-            <li><a href="#">缴费</a></li>
+            <li><a href="payTheFees.jsp">缴费</a></li>
             <li><a href="main.jsp">返回</a></li>
         </ul> 
     </div> 
@@ -115,7 +112,9 @@
 				<td>
 				<div class="input-group">
 				<a class="btn btn-default" role="button" href="returnBook.jsp?bookid=<%=bookid%>">还书</a>
-				<a class="btn btn-default" role="button" href="continueBook.jsp?bookid=<%=bookid%>">续借</a></div>
+				<a class="btn btn-default" role="button" href="continueBook.jsp?bookid=<%=bookid%>">续借</a>
+				<a class="btn btn-default" role="button" href="losebook.jsp?bookid=<%=bookid%>">挂失</a>
+				</div>
 				</td>
 				
 			<%

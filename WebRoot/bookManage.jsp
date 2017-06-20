@@ -39,18 +39,11 @@
         <ul class="nav navbar-nav"> 
             <li><a href="manageMain.jsp">学生管理</a></li> 
             <li class="active"><a href="#">图书管理</a></li> 
-            <li><a href="#">留言信息查阅</a></li> 
-            <li><a href="#">发布公告</a></li>
+            <li><a href="showMessage.jsp">留言信息查阅</a></li> 
+            <li><a href="announce.jsp">发布公告</a></li>
             <li><a href="main.jsp">注销登录</a></li>
         </ul> 
-        <div>
-			<form class="navbar-form navbar-left" role="search">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search">
-				</div>
-				<button type="submit" class="btn btn-default">提交</button>
-			</form>
-		</div>
+        
     </div> 
 </nav>
 

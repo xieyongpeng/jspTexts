@@ -230,6 +230,49 @@ $(document).ready(function(){
 		})
     })	
 </script>
+
+
+<%
+	String sql="select * from announce order by announce_id desc";
+	String announce1="";
+	String announce2="";
+	String announce3="";
+	String announce4="";
+	String announce5="";
+	String announce6="";
+	Connection conn=null;
+  	Statement stmt=null;
+  	ResultSet rs1=null;
+  	try{
+  		conn=DBManager.getConnection();
+  		stmt=conn.createStatement();
+  		rs1=stmt.executeQuery(sql);
+  		rs1.next();
+  		announce1=rs1.getString("text");
+  		rs1.next();
+  		announce2=rs1.getString("text");
+  		rs1.next();
+  		announce3=rs1.getString("text");
+  		rs1.next();
+  		announce4=rs1.getString("text");
+  		rs1.next();
+  		announce5=rs1.getString("text");
+  		rs1.next();
+  		announce6=rs1.getString("text");
+  	}catch(SQLException e){
+		out.println("发生了异常：" + e.getMessage());
+		e.printStackTrace();
+	}finally {
+			if (rs1 != null)
+				rs1.close();
+			if (stmt != null)
+				stmt.close();
+			if (conn != null)
+				conn.close();
+	}
+  		
+
+ %>
     
     <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
 
@@ -247,18 +290,18 @@ $(document).ready(function(){
         <ul class="nav navbar-nav"> 
         	<li class="active"><a href="#">主页</a></li> 
             <li><a href="isLog.jsp">图书借阅查询</a></li> 
-            <li><a href="#">用户留言</a></li> 
+            <li><a href="messageBoard.jsp">用户留言</a></li> 
             <li class="dropdown"> 
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
                     	图书借还 <b class="caret"></b> 
                 </a> 
                 <ul class="dropdown-menu"> 
                      
-                    <li><a href="#">图书归还</a></li> 
-                    <li><a href="#">图书挂失</a></li> 
-                    <li><a href="#">图书续借</a></li> 
+                    <li><a href="isLog.jsp">图书归还</a></li> 
+                    <li><a href="isLog.jsp">图书挂失</a></li> 
+                    <li><a href="isLog.jsp">图书续借</a></li> 
                     <li class="divider"></li> 
-                    <li><a href="#">缴费</a></li>
+                    <li><a href="payTheFees.jsp">缴费</a></li>
                 </ul> 
             </li>
             <li><a href="operationStudentMain2.jsp?action=find">编辑资料</a></li> 
@@ -267,9 +310,9 @@ $(document).ready(function(){
             	欢迎您, <%=URLDecoder.decode(account, "utf-8") %>. &nbsp;&nbsp;注销</a><%} %></li> 
         </ul> 
         <div>
-			<form class="navbar-form navbar-left" role="search">
+			<form class="navbar-form navbar-left" role="search" action="findBook.jsp" method="post">
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search">
+					<input type="text" class="form-control" name="bookname" placeholder="输入图书名称">
 				</div>
 				<button type="submit" class="btn btn-default">提交</button>
 			</form>
@@ -395,18 +438,16 @@ $(document).ready(function(){
 			<div class="panel panel-default">
 				<div class="panel-heading">公告信息</div>
 					<div class="panel-body">
-						<p>这是一个基本的面板内容。这是一个基本的面板内容。
-							这是一个基本的面板内容。这是一个基本的面板内容。
-							这是一个基本的面板内容。这是一个基本的面板内容。
-							这是一个基本的面板内容。这是一个基本的面板内容。
+						<p>
+							<%= announce1 %>
 						</p>
 					</div>
 					<ul class="list-group">
-						<li class="list-group-item">免费域名注册</li>
-						<li class="list-group-item">免费 Window 空间托管</li>
-						<li class="list-group-item">图像的数量</li>
-						<li class="list-group-item">24*7 支持</li>
-						<li class="list-group-item">每年更新成本</li>
+						<li class="list-group-item"><%= announce2 %></li>
+						<li class="list-group-item"><%= announce3 %></li>
+						<li class="list-group-item"><%= announce4 %></li>
+						<li class="list-group-item"><%= announce5 %></li>
+						<li class="list-group-item"><%= announce6 %></li>
 					</ul>
 				</div>
 	        </div>

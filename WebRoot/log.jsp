@@ -1,15 +1,47 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ page import="java.sql.*" %>
+<%@ page import="java.net.*" %>
 <%@ page import="com.helloweenvsfei.mysqlManager.DBManager" %>
-<%
+<jsp:directive.page import="java.security.MessageDigest"/>
+<%!
+	// 密钥
+	private static final String KEY = ":cookie@helloweenvsfei.com";
+
+	// MD5 加密算法
+	public final static String calcMD5(String ss) {
+	  
+	   String s = ss==null ? "" : ss;
+	  
+	   char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+	   try {
+	    byte[] strTemp = s.getBytes();
+	    MessageDigest mdTemp = MessageDigest.getInstance("MD5");
+	    mdTemp.update(strTemp);
+	    byte[] md = mdTemp.digest();
+	    int j = md.length;
+	    char str[] = new char[j * 2];
+	    int k = 0;
+	    for (int i = 0; i < j; i++) {
+	     byte byte0 = md[i];
+	     str[k++] = hexDigits[byte0 >>> 4 & 0xf];
+	     str[k++] = hexDigits[byte0 & 0xf];
+	    }
+	    return new String(str);
+	   } catch (Exception e) {
+	    return null;
+	   }
+	}
+ %>
+ 
+<%	
+	request.setCharacterEncoding("UTF-8");
+	response.setCharacterEncoding("UTF-8");
 	Connection cont=null;
 	PreparedStatement preStmt = null;
 	ResultSet rs=null;
 	String uname="";
-	String password="";
 	String message="";
-	request.setCharacterEncoding("utf-8");
-	response.setCharacterEncoding("utf-8");
+	String password = request.getParameter("password");
 	uname=request.getParameter("uname");
 	password=request.getParameter("password");
 	try{
@@ -26,7 +58,7 @@
 				if(rs.next()){
 					session.setAttribute("uname", uname);
 					session.setAttribute("password", password);
-					response.sendRedirect(request.getContextPath()+"/bookManage.jsp");
+					response.sendRedirect(request.getContextPath()+"/manageMain.jsp");
 					return;
 				}
 				else{
@@ -35,10 +67,20 @@
 			}
 			else{
 				if(rs.next()){
-					session.setAttribute("uname", uname);
-					session.setAttribute("password", password);
-					//message="jimao        sa";
-					response.sendRedirect(request.getContextPath()+"/list.jsp");
+					String ssid = calcMD5(uname + KEY);
+							
+					// 把帐号保存到Cookie中 并控制有效期
+					Cookie accountCookie = new Cookie("account",URLEncoder.encode(uname,"utf-8"));
+					
+					// 把加密结果保存到Cookie中 并控制有效期
+					Cookie ssidCookie = new Cookie("ssid",URLEncoder.encode(ssid,"utf-8"));
+					
+					//cookie发送到客户端
+					response.addCookie(accountCookie);
+					response.addCookie(ssidCookie);
+					
+					// 重新请求本页面，禁止浏览器缓存该页面
+					response.sendRedirect(request.getContextPath()+"/main.jsp");
 					return;
 				}
 				else{
@@ -158,7 +200,8 @@ input:active,button:active{outline:thick solid #aaa}
             <input type="text" name="email" id="textfiled" />
             <label>Password<span class="small">密码</span></label>
             <input type="password" name="password" id="textfiled" />
-            <button type="submit">登录</button>
+            <button type="submit" style="display:inline;">登录</button>
+            <a href="main.jsp"><button type="button" style="display:inline;">返回</button></a>
             <div class="spacer"></div>
         </form>
     </div>

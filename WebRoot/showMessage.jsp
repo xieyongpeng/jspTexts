@@ -12,7 +12,7 @@
 
 	int recordCount = 0;		// 总记录数
 	request.setCharacterEncoding("utf-8");
-	String zhonglei=request.getParameter("zhonglei");
+	
 	
 	try{
 		// 从地址栏参数取当前页数
@@ -34,36 +34,20 @@
   <body>
   
   
-  <nav class="navbar navbar-default" role="navigation" style="margin:0px 0px 3px 0px;"> 
+ <nav class="navbar navbar-default" role="navigation" style="margin:0px 0px 3px 0px;"> 
     <div class="container-fluid"> 
     <div class="navbar-header"> 
-        <a class="navbar-brand" href="#">图书查找系统</a> 
+        <a class="navbar-brand" href="#">管理员管理系统</a> 
     </div> 
     <div> 
         <ul class="nav navbar-nav"> 
-            <li><a href="findclass.jsp?zhonglei=计算机类">计算机类</a></li> 
-            <li><a href="findclass.jsp?zhonglei=人文类">人文类</a></li> 
-            <li><a href="findclass.jsp?zhonglei=科技类">科技类</a></li> 
-            <li><a href="findclass.jsp?zhonglei=励志类">励志类</a></li>
-            <li><a href="findclass.jsp?zhonglei=健身类">健身类</a></li>
-            <li><a href="findclass.jsp?zhonglei=哲学类">哲学类</a></li>
-            <li><a href="findclass.jsp?zhonglei=儿童类">儿童类</a></li>
-            <li><a href="findclass.jsp?zhonglei=散文类">散文类</a></li>
-            <li><a href="findclass.jsp?zhonglei=旅游类">旅游类</a></li>
-            <li><a href="findclass.jsp?zhonglei=传记类">传记类</a></li>
-            <li><a href="findclass.jsp?zhonglei=青春类">青春类</a></li>
-            <li><a href="findclass.jsp?zhonglei=其他">其他</a></li>
-            <li><a href="main.jsp">返回</a></li>
+            <li><a href="manageMain.jsp">学生管理</a></li> 
+            <li><a href="bookManage.jsp">图书管理</a></li> 
+            <li class="active"><a href="#">留言信息查阅</a></li> 
+            <li><a href="announce.jsp">发布公告</a></li>
+            <li><a href="main.jsp">注销登录</a></li>
         </ul> 
-        <!--  <div>
-			<form class="navbar-form navbar-left" role="search">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search">
-				</div>
-				<button type="submit" class="btn btn-default">提交</button>
-			</form>
-		</div>
-		-->
+        
     </div> 
 </nav>
 
@@ -71,8 +55,9 @@
 	Connection cont=null;
 	PreparedStatement preStmt = null;
 	ResultSet rs=null;
+	
 	try{
-		String sql="select * from book_information where zhonglei='" +zhonglei+ "'";
+		String sql="select * from message_board";
 		recordCount = DBManager.getCount(sql);//计算出所有记录条数
 		
 		pageCount = ( recordCount + pageSize - 1 ) / pageSize;// 计算总页数
@@ -80,7 +65,7 @@
 		int startRecord = ( pageNum - 1) * pageSize;// 本页从 startRecord 行开始
 		
 		// MySQL 使用limit实现分页
-		sql = "SELECT * FROM book_information where zhonglei='" +zhonglei+ "' LIMIT ?, ?";
+		sql = "SELECT * FROM message_board LIMIT ?, ?";
 		cont = DBManager.getConnection();
 		
 		preStmt = cont.prepareStatement(sql);
@@ -91,45 +76,31 @@
  
  <form role="form" action="borrowBook.jsp" method=post>
 	 <table class="table table-bordered table-condensed">
-	 	<caption>图书借阅</caption>
+	 	<caption>留言信息</caption>
 		<thead>
 	 	<tr>
-		    <th>&nbsp;</th>
-		    <th>图书编号</th>
-		    <th>图书名称</th>
-		    <th>图书数量</th>
-		    <th>图书价格</th>
-		    <th>图书描述</th>
-		    <th>操作</th>
+		    <th>姓名</th>
+		    <th>内容</th>
+		    <th>时间</th>
 		</tr>
 		</thead>
 		<tbody>
 		<%
 			while(rs.next()){
 				
-				String bookid=rs.getString("bookid");
+				String name=rs.getString("name");
 				
-				String bookname=rs.getString("bookname");
 				
-				int booknumber=rs.getInt("booknumber");
+				String text=rs.getString("text");
 				
-				int bookprice=rs.getInt("bookprice");
-				
-				String description=rs.getString("description");
+				Timestamp date=rs.getTimestamp("date");
 				
 				out.println("		<tr bgcolor=#FFFFFF>");
-				out.println("	<td><input type=checkbox name=id value=" + bookid
-						+ "></td>");
-				out.println("	<td>" + bookid + "</td>");
-				out.println("	<td>" + bookname + "</td>");
-				out.println("	<td>" + booknumber + "</td>");
-				out.println("	<td>" + bookprice + "</td>");
-				out.println("	<td>" + description + "</td>");
-				out.println("	<td>");
-						out.println("		<a class='btn btn-default' href='borrowBook.jsp?id="
-						+ bookid + "'>借阅</a>");
-						out.println("	</td>");
-						out.println("		</tr>");
+				
+				out.println("	<td>" + name + "</td>");
+				out.println("	<td>" + text + "</td>");
+				out.println("	<td>" + date + "</td>");
+				out.println("		</tr>");
 			
 			}
 		%>
@@ -139,7 +110,6 @@
 					<table class="table table-bordered table-condensed">
 						<tr>
 							<td>
-								<input class="btn btn-info" type='submit' value='借阅' />
 							
 							
 							<div style="display:inline">

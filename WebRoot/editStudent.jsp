@@ -14,6 +14,18 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	
+	<script type="text/javascript">
+		window.onload =function(){
+			var select=document.getElementById("class2").value;
+			var member=document.getElementById("class1");
+			for(var i=0;i<member.childElementCount;i++){
+				if(select==member.options[i].value){
+					member.options[i].selected=true;
+				}
+			}
+		};
+	</script>
 
   </head>
   
@@ -31,6 +43,22 @@
    %>
   
   <body>
+  
+  <nav class="navbar navbar-default" role="navigation" style="margin:0px 0px 3px 0px;"> 
+    <div class="container-fluid"> 
+	    <div class="navbar-header"> 
+	        <a class="navbar-brand" href="#">资料编辑</a> 
+	    </div>
+	    <div> 
+        	<ul class="nav navbar-nav"> 
+        		<li><a href="manageMain.jsp">返回</a></li>  
+        	</ul>
+        </div>
+	</div>
+</nav>
+  
+  
+  		
  		<form role="form" action="operationStudent.jsp" method=post>
  			<input type="hidden" name="action" value="save">
  			<input type="hidden" name="id" value="<%= id%>">
@@ -44,7 +72,8 @@
 						    <input type="text" class="form-control" id="name" name="name" value="<%= name %>">
 						</div>
 						<div>
-  							<label class="control-label" for="sex1">性别</label>
+  							
+  							<input type="hidden" id="class2" value="<%= class1 %>">
 	  						<div class="radio">
 							  <label class="checkbox-inline">
 							    <input type="radio" name="sex" id="sex1" value="男" checked>男
@@ -58,7 +87,8 @@
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="class1">所在班级</label>
-    						<select class="form-control" name="class1" id="class1" value="<%= class1 %>">
+							<input type="hidden" id="class2" value="<%= class1 %>">
+    						<select class="form-control" name="class1" id="class1" >
       							<option value="应用141">应用141</option>
       							<option value="应用142">应用142</option>
       							<option value="应用143">应用143</option>
